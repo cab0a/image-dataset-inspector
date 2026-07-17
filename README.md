@@ -81,6 +81,14 @@ python examples/run_public_sample.py
 
 The sample demonstrates that the metrics describe image content rather than absolute quality. In particular, dark images can still contain strong local detail, and Laplacian variance is influenced by texture, noise, scale, and blur. See the [public sample analysis and attribution](examples/public_sample/README.md) for the results, interpretation, and image licenses.
 
+## Downstream Workflow
+
+The CSV report can be used as an explicit input gate before a computer vision experiment. The [Vision Playground inspected public sample](https://github.com/cab0a/vision-playground/tree/main/results/inspected_public_sample) demonstrates this sequence:
+
+`Input Inspection → Thresholding Prototype → Qualitative Evaluation → Interpretation`
+
+Unreadable files remain visible in the input report, while only valid images continue to the experiment. The downstream workflow joins inspection metrics with thresholding outputs so assumptions and observed behavior can be reviewed together.
+
 ## Output Schema
 
 | Column | Description |
