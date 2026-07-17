@@ -45,6 +45,10 @@ def write_csv_report(results: Iterable[InspectionResult], output_path: Path) -> 
     """Write inspection results to a UTF-8 CSV file."""
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8", newline="") as report_file:
-        writer = csv.DictWriter(report_file, fieldnames=CSV_COLUMNS)
+        writer = csv.DictWriter(
+            report_file,
+            fieldnames=CSV_COLUMNS,
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(_to_row(result) for result in results)

@@ -69,6 +69,18 @@ image-dataset-inspector inspect ./images --output report.csv
 
 The scan completes and writes a report even when individual files are unreadable. An invalid input directory or an unwritable report destination returns a non-zero exit code.
 
+## Public Image Sample
+
+A reproducible real-image example downloads five CC0 or public-domain photographs from the scikit-image sample data, verifies their SHA-256 hashes, and generates a CSV report and contact sheet.
+
+```bash
+python examples/run_public_sample.py
+```
+
+![Public image inspection sample](examples/public_sample/public_sample_contact_sheet.jpg)
+
+The sample demonstrates that the metrics describe image content rather than absolute quality. In particular, dark images can still contain strong local detail, and Laplacian variance is influenced by texture, noise, scale, and blur. See the [public sample analysis and attribution](examples/public_sample/README.md) for the results, interpretation, and image licenses.
+
 ## Output Schema
 
 | Column | Description |
@@ -135,7 +147,12 @@ image-dataset-inspector/
 │   └── workflows/
 │       └── ci.yml
 ├── examples/
-│   └── generate_demo_images.py
+│   ├── public_sample/
+│   │   ├── README.md
+│   │   ├── public_sample_contact_sheet.jpg
+│   │   └── public_sample_report.csv
+│   ├── generate_demo_images.py
+│   └── run_public_sample.py
 ├── src/
 │   └── image_dataset_inspector/
 │       ├── __init__.py
