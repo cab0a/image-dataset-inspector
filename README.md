@@ -2,6 +2,22 @@
 
 [![CI](https://github.com/cab0a/image-dataset-inspector/actions/workflows/ci.yml/badge.svg)](https://github.com/cab0a/image-dataset-inspector/actions/workflows/ci.yml)
 
+大量のJPEG・PNG画像を一括検査し、結果をCSVにまとめるPython CLIツールです。壊れた画像が混ざっていても処理を止めず、エラーをレポートに記録します。
+
+## このツールでできること
+
+- 画像サイズ、ファイルサイズ、チャンネル数の一覧化
+- 明るさ、コントラスト、ぼけ指標の計算
+- 読み込めない画像の検出とエラー内容の記録
+- サブフォルダを含む画像の一括処理
+- UTF-8形式のCSVレポート出力
+
+**主な成果物:** 画像ごとの検査結果をまとめた `report.csv`
+
+**想定用途:** AI学習データの事前確認、商品画像の品質チェック、画像フォルダの棚卸し
+
+![実画像サンプルの検査結果](examples/public_sample/public_sample_contact_sheet.jpg)
+
 ## Overview
 
 Image Dataset Inspector is a small Python command-line tool that recursively scans JPEG and PNG files, verifies that OpenCV can decode them, calculates simple image statistics, and writes a CSV inventory.
