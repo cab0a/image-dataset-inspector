@@ -109,6 +109,8 @@ The unit tests use images generated in temporary directories. They verify that:
 
 These tests check relative metric behavior rather than fixed values that could be brittle across image-processing library versions.
 
+GitHub Actions installs the project, verifies the CLI entry point, and runs the test suite on Python 3.10 through 3.14.
+
 ## Limitations
 
 - Brightness, contrast, and blur score are descriptive statistics, not absolute image-quality measurements.
@@ -124,6 +126,9 @@ These tests check relative metric behavior rather than fixed values that could b
 
 ```text
 image-dataset-inspector/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── examples/
 │   └── generate_demo_images.py
 ├── src/
