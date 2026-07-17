@@ -1,5 +1,7 @@
 # Image Dataset Inspector
 
+[![CI](https://github.com/cab0a/image-dataset-inspector/actions/workflows/ci.yml/badge.svg)](https://github.com/cab0a/image-dataset-inspector/actions/workflows/ci.yml)
+
 ## Overview
 
 Image Dataset Inspector is a small Python command-line tool that recursively scans JPEG and PNG files, verifies that OpenCV can decode them, calculates simple image statistics, and writes a CSV inventory.
@@ -33,7 +35,7 @@ On Debian or Ubuntu, install the distribution-provided `python3-venv` package if
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -e ".[dev]"
+python -m pip install ".[dev]"
 python examples/generate_demo_images.py --output demo_images
 image-dataset-inspector inspect demo_images --output report.csv
 ```
@@ -106,10 +108,13 @@ The unit tests use images generated in temporary directories. They verify that:
 - A high-contrast image has higher contrast than a uniform image
 - A sharp checkerboard has a higher blur score than its blurred version
 - A CSV report is created with both valid and unreadable rows
+- Invalid input and unwritable output paths return documented error exit codes
 
 These tests check relative metric behavior rather than fixed values that could be brittle across image-processing library versions.
 
 GitHub Actions installs the project, verifies the CLI entry point, and runs the test suite on Python 3.10 through 3.14.
+
+The CI matrix defines the supported Python versions. A newer Python version is considered supported after it has been added to the matrix and passes the complete workflow.
 
 ## Limitations
 
@@ -117,7 +122,7 @@ GitHub Actions installs the project, verifies the CLI entry point, and runs the 
 - Useful thresholds depend on image content, resolution, acquisition conditions, bit depth, and the downstream task.
 - The Laplacian variance is sensitive to texture and noise as well as blur. A highly textured image can receive a high score even when the score is not useful for a particular application.
 - Metric values are not normalized across different image bit depths.
-- Only JPEG and PNG filename extensions are inspected in version 0.1.
+- Only JPEG and PNG filename extensions are inspected in version 0.1.x.
 - EXIF orientation is not normalized or reported.
 - Annotation files, duplicate images, and dataset labels are outside the current scope.
 - The implementation is designed for small and moderate local datasets, not large-scale or distributed processing.
@@ -140,6 +145,7 @@ image-dataset-inspector/
 │       └── reporting.py
 ├── tests/
 │   ├── conftest.py
+│   ├── test_cli.py
 │   ├── test_inspector.py
 │   └── test_metrics.py
 ├── .gitignore
@@ -150,7 +156,7 @@ image-dataset-inspector/
 
 ## Roadmap
 
-Possible later improvements include optional JSON output, configurable checks, duplicate detection, and richer summary reports. They are intentionally excluded from version 0.1 to keep the initial implementation small and auditable.
+Possible later improvements include optional JSON output, configurable checks, duplicate detection, and richer summary reports. They are intentionally excluded from version 0.1.x to keep the initial implementation small and auditable.
 
 ## License
 
