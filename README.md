@@ -1,5 +1,17 @@
 # Image Dataset Inspector
 
+## 日本語概要
+
+このリポジトリは、JPEG・PNGフォルダを再帰的に検査し、画像サイズ、file size、
+brightness、contrast、Laplacian variance、decode errorをCSVへ出力するPython CLIです。
+学習や画像処理の前にデータセットを監査したい担当者に役立ちます。
+
+壊れた画像があってもscanを継続し、決定論的なrow order、synthetic fixture、
+checksum付き公開サンプル、Python 3.10〜3.14のCIを備えています。指標の意味と制約は
+英語本文を参照してください。
+
+---
+
 [![CI](https://github.com/cab0a/image-dataset-inspector/actions/workflows/ci.yml/badge.svg)](https://github.com/cab0a/image-dataset-inspector/actions/workflows/ci.yml)
 
 Audit JPEG and PNG folders from the command line without allowing one broken
@@ -267,15 +279,3 @@ Possible later improvements include optional JSON output, configurable checks, d
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
-
----
-
-## 日本語概要
-
-このリポジトリは、JPEG・PNGフォルダを再帰的に検査し、画像サイズ、file size、
-brightness、contrast、Laplacian variance、decode errorをCSVへ出力するPython CLIです。
-学習や画像処理の前にデータセットを監査したい担当者に役立ちます。
-
-壊れた画像があってもscanを継続し、決定論的なrow order、synthetic fixture、
-checksum付き公開サンプル、Python 3.10〜3.14のCIを備えています。指標の意味と制約は
-英語本文を参照してください。
