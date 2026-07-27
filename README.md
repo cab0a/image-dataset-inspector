@@ -2,21 +2,8 @@
 
 [![CI](https://github.com/cab0a/image-dataset-inspector/actions/workflows/ci.yml/badge.svg)](https://github.com/cab0a/image-dataset-inspector/actions/workflows/ci.yml)
 
-大量のJPEG・PNG画像を一括検査し、結果をCSVにまとめるPython CLIツールです。壊れた画像が混ざっていても処理を止めず、エラーをレポートに記録します。
-
-## このツールでできること
-
-- 画像サイズ、ファイルサイズ、チャンネル数の一覧化
-- 明るさ、コントラスト、ぼけ指標の計算
-- 読み込めない画像の検出とエラー内容の記録
-- サブフォルダを含む画像の一括処理
-- UTF-8形式のCSVレポート出力
-
-**主な成果物:** 画像ごとの検査結果をまとめた `report.csv`
-
-**想定用途:** AI学習データの事前確認、商品画像の品質チェック、画像フォルダの棚卸し
-
-![実画像サンプルの検査結果](examples/public_sample/public_sample_contact_sheet.jpg)
+Audit JPEG and PNG folders from the command line without allowing one broken
+image to hide the rest of the dataset.
 
 ## Overview
 
@@ -24,13 +11,32 @@ Image Dataset Inspector is a small Python command-line tool that recursively sca
 
 The project focuses on a narrow, reproducible workflow suitable for early dataset checks. It continues scanning when an individual file cannot be read and records the failure in the report.
 
+It is intended for dataset maintainers, ML engineers, and computer-vision
+practitioners who need a reviewable inventory before training or experiments.
+This repository inspects inputs; it does not compare vision algorithms like
+`vision-playground` or maintain a sequence of research studies like
+`research-notes`.
+
 ## Problem
 
 Image datasets often contain a mixture of valid images, corrupted files, inconsistent dimensions, and files with different visual characteristics. Discovering these issues before model training or image-processing experiments makes later failures easier to diagnose.
 
 This tool provides a deterministic first-pass inventory without attempting to decide whether an image is suitable for a specific model or application.
 
-## Features
+## Representative Result
+
+The public sample shows five checksum-verified CC0 or public-domain images
+alongside the dimensions, brightness, contrast, and Laplacian-variance values
+recorded in the generated CSV.
+
+![Public image inspection sample](examples/public_sample/public_sample_contact_sheet.jpg)
+
+Review the complete
+[`public_sample_report.csv`](examples/public_sample/public_sample_report.csv)
+for machine-readable values. The sample demonstrates that the metrics describe
+content and scale; they are not universal image-quality scores.
+
+## Key Features
 
 - Recursively discovers `.jpg`, `.jpeg`, and `.png` files
 - Records paths relative to the inspected directory
@@ -48,12 +54,15 @@ Python 3.10 or later is required.
 On Debian or Ubuntu, install the distribution-provided `python3-venv` package if `venv` reports that `ensurepip` is unavailable.
 
 ```bash
+git clone https://github.com/cab0a/image-dataset-inspector.git
+cd image-dataset-inspector
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install ".[dev]"
-python examples/generate_demo_images.py --output demo_images
-image-dataset-inspector inspect demo_images --output report.csv
+python -m pip install -e .
+python examples/generate_demo_images.py --output output/demo_images
+image-dataset-inspector inspect output/demo_images \
+  --output output/report.csv
 ```
 
 Expected CLI summary:
@@ -62,14 +71,20 @@ Expected CLI summary:
 Scanned: 6
 Valid: 5
 Unreadable: 1
-Report: report.csv
+Report: output/report.csv
 ```
 
-Run the tests with:
+Review `output/report.csv`; it contains one row per discovered file, including the
+deliberately unreadable `broken.jpg`.
 
-```bash
-python -m pytest
-```
+## Generated Artifacts
+
+- `output/report.csv` is a deterministic UTF-8 inventory with relative paths,
+  dimensions, channel counts, descriptive metrics, status, and decode errors.
+- `examples/public_sample/public_sample_report.csv` and
+  `public_sample_contact_sheet.jpg` provide a reproducible real-image example.
+- `output/demo_images/` is generated locally and includes five decodable images plus
+  one corrupted JPEG for the failure-path demonstration.
 
 ## Usage
 
@@ -85,15 +100,27 @@ image-dataset-inspector inspect ./images --output report.csv
 
 The scan completes and writes a report even when individual files are unreadable. An invalid input directory or an unwritable report destination returns a non-zero exit code.
 
-## Public Image Sample
+| Exit code | Meaning |
+| ---: | --- |
+| `0` | Scan completed and the CSV report was written; unreadable images may still be present as report rows |
+| `1` | The CSV report could not be written |
+| `2` | The input path was not a readable directory |
+
+## Evaluation Methodology
+
+The synthetic fixture provides known relative relationships and an explicit
+decode failure. The public sample provides varied, traceable image content
+without semantic quality labels. Together they test inventory behavior and
+metric interpretation without presenting the descriptive statistics as an
+acceptance threshold.
+
+## Results: Public Image Sample
 
 A reproducible real-image example downloads five CC0 or public-domain photographs from the scikit-image sample data, verifies their SHA-256 hashes, and generates a CSV report and contact sheet.
 
 ```bash
 python examples/run_public_sample.py
 ```
-
-![Public image inspection sample](examples/public_sample/public_sample_contact_sheet.jpg)
 
 The sample demonstrates that the metrics describe image content rather than absolute quality. In particular, dark images can still contain strong local detail, and Laplacian variance is influenced by texture, noise, scale, and blur. See the [public sample analysis and attribution](examples/public_sample/README.md) for the results, interpretation, and image licenses.
 
@@ -105,7 +132,9 @@ The CSV report can be used as an explicit input gate before a computer vision ex
 
 Unreadable files remain visible in the input report, while only valid images continue to the experiment. The downstream workflow joins inspection metrics with thresholding outputs so assumptions and observed behavior can be reviewed together.
 
-## Output Schema
+## Technical Design
+
+### Output Schema
 
 | Column | Description |
 | --- | --- |
@@ -122,7 +151,7 @@ Unreadable files remain visible in the input report, while only valid images con
 
 Unavailable values are written as empty CSV fields. Metric values are written with six decimal places.
 
-## Methodology
+### Scan and Metric Methodology
 
 OpenCV loads each image with unchanged channel information. A two-dimensional image is treated as one channel; three- and four-channel images are converted from BGR or BGRA to grayscale before metric calculation.
 
@@ -134,7 +163,12 @@ The metrics use intentionally simple definitions:
 
 The scanner sorts candidate paths before inspection so repeated runs over unchanged files produce a stable row order.
 
-## Evaluation
+## Development and Testing
+
+```bash
+python -m pip install ".[dev]"
+python -m pytest
+```
 
 The unit tests use images generated in temporary directories. They verify that:
 
@@ -162,6 +196,37 @@ The CI matrix defines the supported Python versions. A newer Python version is c
 - EXIF orientation is not normalized or reported.
 - Annotation files, duplicate images, and dataset labels are outside the current scope.
 - The implementation is designed for small and moderate local datasets, not large-scale or distributed processing.
+
+## Reproducibility
+
+Regenerate the synthetic fixture and its report:
+
+```bash
+python examples/generate_demo_images.py --output output/demo_images
+image-dataset-inspector inspect output/demo_images \
+  --output output/report.csv
+```
+
+Regenerate the checksum-verified public sample, CSV, and contact sheet:
+
+```bash
+python examples/run_public_sample.py \
+  --images output/public-sample/images \
+  --output output/public-sample
+```
+
+Candidate paths are sorted before inspection, relative paths use POSIX form,
+and metric values are written with six decimal places. The public-sample
+script fixes the downloaded bytes with SHA-256 checks before generating its
+artifacts.
+
+## Compatibility
+
+Python 3.10 through 3.14 are tested in CI. Version 0.1.x supports recursive
+`.jpg`, `.jpeg`, and `.png` discovery, the documented `inspect` command and
+exit codes, and the current CSV columns. The project does not claim a 1.x
+stability guarantee; consumers that require a fixed interface should pin a
+release and review changes before upgrading.
 
 ## Project Structure
 
@@ -202,3 +267,15 @@ Possible later improvements include optional JSON output, configurable checks, d
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## 日本語概要
+
+このリポジトリは、JPEG・PNGフォルダを再帰的に検査し、画像サイズ、file size、
+brightness、contrast、Laplacian variance、decode errorをCSVへ出力するPython CLIです。
+学習や画像処理の前にデータセットを監査したい担当者に役立ちます。
+
+壊れた画像があってもscanを継続し、決定論的なrow order、synthetic fixture、
+checksum付き公開サンプル、Python 3.10〜3.14のCIを備えています。指標の意味と制約は
+英語本文を参照してください。

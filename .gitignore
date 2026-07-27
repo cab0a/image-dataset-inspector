@@ -8,4 +8,5 @@ build/
 dist/
 demo_images/
 report.csv
+output/
 examples/public_sample/images/
