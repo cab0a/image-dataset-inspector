@@ -2,13 +2,9 @@
 
 ## 日本語概要
 
-このリポジトリは、JPEG・PNGフォルダを再帰的に検査し、画像サイズ、file size、
-brightness、contrast、Laplacian variance、decode errorをCSVへ出力するPython CLIです。
-学習や画像処理の前にデータセットを監査したい担当者に役立ちます。
+このリポジトリは、JPEG・PNGフォルダを再帰的に検査し、画像サイズ、file size、brightness、contrast、Laplacian variance、decode errorをCSVへ出力するPython CLIです。学習や画像処理の前にデータセットを監査したい担当者に役立ちます。
 
-壊れた画像があってもscanを継続し、決定論的なrow order、synthetic fixture、
-checksum付き公開サンプル、Python 3.10〜3.14のCIを備えています。指標の意味と制約は
-英語本文を参照してください。
+壊れた画像があってもscanを継続し、決定論的なrow order、synthetic fixture、checksum付き公開サンプル、Python 3.10〜3.14のCIを備えています。指標の意味と制約は英語本文を参照してください。
 
 ---
 
