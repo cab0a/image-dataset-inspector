@@ -21,8 +21,6 @@ Image Dataset Inspector is a small Python command-line tool that recursively sca
 
 The project focuses on a narrow, reproducible workflow suitable for early dataset checks. It continues scanning when an individual file cannot be read and records the failure in the report.
 
-It is intended for dataset maintainers, ML engineers, and computer-vision
-practitioners who need a reviewable inventory before training or experiments.
 This repository inspects inputs; it does not compare vision algorithms like
 `vision-playground` or maintain a sequence of research studies like
 `research-notes`.
