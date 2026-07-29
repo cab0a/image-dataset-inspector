@@ -1,5 +1,13 @@
 # Reproducibility
 
+## 日本語概要
+
+本書は、5枚の正常画像と1件の不正JPEGからなる合成標本、およびSHA-256で固定した公開画像標本を再生成・検査する手順をまとめています。探索順、相対パス、数値書式、端末表示を固定し、対応Python版の自動テスト内容も記録しています。
+
+環境構築と検証コマンドは以下の英語本文を参照してください。
+
+---
+
 ## Environment
 
 Python 3.10 through 3.14 are tested in GitHub Actions. The runtime dependencies are NumPy and `opencv-python-headless`.

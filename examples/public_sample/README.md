@@ -1,5 +1,13 @@
 # Public Image Sample
 
+## 日本語概要
+
+本書は、自由に再利用できる5枚の写真を検査した公開例です。取得時にSHA-256を確認し、画像寸法、容量、明るさ、コントラスト、ラプラシアン分散をCSVへ出力し、結果を一覧できるコンタクトシートも生成します。元画像はリポジトリへ保存しません。
+
+再生成方法、結果の読み方、出典は以下の英語本文を参照してください。
+
+---
+
 This example applies Image Dataset Inspector to five real images distributed with scikit-image. The download URLs are pinned to scikit-image `v0.26.0`, and every file is verified with SHA-256 before use.
 
 The source images are downloaded at runtime and are not committed to this repository. The generated CSV report and contact sheet are committed so the result can be reviewed without downloading the originals.

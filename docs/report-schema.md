@@ -1,5 +1,13 @@
 # Report Schema and Metrics
 
+## 日本語概要
+
+本書は、検査対象画像ごとに出力するUTF-8 CSVの列順、欠損値、数値書式、読み込み失敗の記録方法を定義します。明るさ、コントラスト、ラプラシアン分散の計算方法と、同じ入力に対する行順の決定性も説明しています。
+
+列定義、計算式、出力例は以下の英語本文を参照してください。
+
+---
+
 The `inspect` command writes one UTF-8 CSV row for each discovered image candidate.
 
 ## Columns

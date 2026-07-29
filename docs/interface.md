@@ -1,5 +1,13 @@
 # Command-Line Interface
 
+## 日本語概要
+
+本書は、画像フォルダーを再帰検査する`inspect`コマンドの引数、対象拡張子、探索順序、端末表示、終了コード、ファイル単位の失敗処理を定義します。Pythonから利用できる範囲と、0.1.xで維持する互換性の境界も記載しています。
+
+完全な操作仕様は以下の英語本文を参照してください。
+
+---
+
 This document defines the command-line behavior of Image Dataset Inspector version `0.1.x`.
 
 ## Command
