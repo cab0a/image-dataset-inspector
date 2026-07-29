@@ -10,8 +10,6 @@ Python 3.10〜3.14でテストを自動実行しています。指標の意味�
 
 ---
 
-[![CI](https://github.com/cab0a/image-dataset-inspector/actions/workflows/ci.yml/badge.svg)](https://github.com/cab0a/image-dataset-inspector/actions/workflows/ci.yml)
-
 Audit JPEG and PNG folders from the command line without allowing one broken image to hide the rest of the dataset.
 
 ## Overview
