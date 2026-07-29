@@ -8,6 +8,14 @@
 
 ---
 
+## English Summary
+
+This document bounds what the reported image statistics and CLI success state
+can establish. It also records unsupported formats, metadata behavior,
+dataset-scale limits, and inputs that remain outside version `0.1.x`.
+
+## Documented Constraints
+
 - Brightness, contrast, and blur score are descriptive statistics, not absolute image-quality measurements.
 - Acceptance thresholds depend on image content, resolution, acquisition conditions, bit depth, and the downstream task.
 - Laplacian variance is sensitive to texture and noise as well as blur. A highly textured image can receive a high score even when it is unsuitable for a particular application.

@@ -8,6 +8,8 @@
 
 ---
 
+## English Summary
+
 The `inspect` command writes one UTF-8 CSV row for each discovered image candidate.
 
 ## Columns

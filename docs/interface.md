@@ -8,6 +8,8 @@
 
 ---
 
+## English Summary
+
 This document defines the command-line behavior of Image Dataset Inspector version `0.1.x`.
 
 ## Command

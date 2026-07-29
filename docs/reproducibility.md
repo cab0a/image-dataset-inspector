@@ -8,6 +8,12 @@
 
 ---
 
+## English Summary
+
+This guide defines the synthetic and public-image workflows used to verify
+file discovery, per-image metrics, unreadable-file handling, deterministic
+ordering, CSV formatting, and supported Python versions.
+
 ## Environment
 
 Python 3.10 through 3.14 are tested in GitHub Actions. The runtime dependencies are NumPy and `opencv-python-headless`.
