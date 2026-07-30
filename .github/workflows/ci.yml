@@ -34,5 +34,14 @@ jobs:
       - name: Verify CLI installation
         run: image-dataset-inspector --help
 
+      - name: Run README Quick Start
+        if: matrix.python-version == '3.12'
+        run: |
+          python examples/generate_demo_images.py --output output/demo_images
+          image-dataset-inspector inspect output/demo_images \
+            --output output/report.csv
+          test -s output/report.csv
+          python -c "import csv; rows = list(csv.DictReader(open('output/report.csv', encoding='utf-8'))); assert len(rows) == 6 and sum(row['status'] == 'unreadable' for row in rows) == 1"
+
       - name: Run tests
         run: python -m pytest

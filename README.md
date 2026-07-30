@@ -144,7 +144,7 @@ python -m pip install ".[dev]"
 python -m pytest
 ```
 
-Eight tests cover recursive discovery, corrupt-image reporting, CSV schema, relative metric behavior, and error exit codes. GitHub Actions installs the package, checks the CLI entry point, and runs the suite on Python 3.10 through 3.14.
+Eight tests cover recursive discovery, corrupt-image reporting, CSV schema, relative metric behavior, and error exit codes. GitHub Actions installs the package, checks the CLI entry point, and runs the suite on Python 3.10 through 3.14. On Python 3.12, it also executes the README Quick Start and confirms that the report contains all six generated files, including one unreadable image.
 
 ## Compatibility
 
