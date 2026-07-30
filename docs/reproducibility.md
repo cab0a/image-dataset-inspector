@@ -2,7 +2,7 @@
 
 ## 日本語概要
 
-本書は、5枚の正常画像と1件の不正JPEGからなる合成標本、およびSHA-256で固定した公開画像標本を再生成・検査する手順をまとめています。探索順、相対パス、数値書式、端末表示を固定し、対応Python版の自動テスト内容も記録しています。
+本書は、5枚の正常画像と1件の不正JPEGからなる合成標本、およびSHA-256で固定した公開画像標本を再生成・検査する手順をまとめています。探索順、相対パス、数値書式、端末表示を固定し、対応Python版の自動テスト内容も記録しています。Python 3.12のCIでは公開サンプルのCSVとコンタクトシートを再生成し、コミット済み成果物との差分を検査します。
 
 環境構築と検証コマンドは以下の英語本文を参照してください。
 
@@ -78,7 +78,13 @@ The project does not claim byte-identical JPEG contact-sheet encoding across eve
 
 ## Verification in CI
 
-GitHub Actions installs the package, verifies the CLI entry point, and runs eight tests on Python 3.10 through 3.14.
+GitHub Actions installs the package, verifies the CLI entry point, and runs eight tests on Python 3.10 through 3.14. On Python 3.12 it also regenerates the committed public-sample report and contact sheet, then requires:
+
+```bash
+git diff --exit-code -- examples/public_sample/
+```
+
+The job also rejects untracked files in that directory. This fixed-environment maintenance gate makes report or presentation drift visible; it does not claim byte-identical JPEG encoding across every supported OpenCV build.
 
 The tests cover:
 

@@ -6,7 +6,7 @@
 
 壊れた画像があっても検査を継続し、入力が同じなら変化しない行順、合成テストデータ、チェックサム付きの公開サンプルを備えています。
 
-Python 3.10〜3.14でテストを自動実行しています。指標の意味、出力仕様、制約の詳細は、以下の英語本文とリンク先の技術資料を参照してください。
+Python 3.10〜3.14でテストを自動実行し、Python 3.12では公開サンプルのCSVとコンタクトシートを再生成してコミット済み成果物との差分を検査しています。指標の意味、出力仕様、制約の詳細は、以下の英語本文とリンク先の技術資料を参照してください。
 
 ---
 
@@ -144,7 +144,7 @@ python -m pip install ".[dev]"
 python -m pytest
 ```
 
-Eight tests cover recursive discovery, corrupt-image reporting, CSV schema, relative metric behavior, and error exit codes. GitHub Actions installs the package, checks the CLI entry point, and runs the suite on Python 3.10 through 3.14. On Python 3.12, it also executes the README Quick Start and confirms that the report contains all six generated files, including one unreadable image.
+Eight tests cover recursive discovery, corrupt-image reporting, CSV schema, relative metric behavior, and error exit codes. GitHub Actions installs the package, checks the CLI entry point, and runs the suite on Python 3.10 through 3.14. On Python 3.12, it also executes the README Quick Start, confirms that the report contains all six generated files including one unreadable image, regenerates the public-sample CSV and contact sheet, and requires an empty Git diff.
 
 ## Compatibility
 
